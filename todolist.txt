@@ -1,0 +1,84 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+// Function to display the menu
+void displayMenu() {
+    cout << "===== To-Do List =====" << endl;
+    cout << "1. Add Task" << endl;
+    cout << "2. View Tasks" << endl;
+    cout << "3. Mark Task as Completed" << endl;
+    cout << "4. Quit" << endl;
+}
+
+// Function to add a task to the to-do list
+void addTask(vector<string>& todoList) {
+    string task;
+    cout << "Enter the task: ";
+    cin.ignore();  // Clear input buffer
+    getline(cin, task);
+    todoList.push_back(task);
+    cout << "Task added successfully!" << endl;
+}
+
+// Function to view all tasks in the to-do list
+void viewTasks(const vector<string>& todoList) {
+    cout << "===== To-Do List =====" << endl;
+    if (todoList.empty()) {
+        cout << "No tasks found." << endl;
+    } else {
+        for (size_t i = 0; i < todoList.size(); ++i) {
+            cout << i + 1 << ". " << todoList[i] << endl;
+        }
+    }
+}
+
+// Function to mark a task as completed
+void markCompleted(vector<string>& todoList) {
+    viewTasks(todoList);
+    if (!todoList.empty()) {
+        int index;
+        cout << "Enter the task number to mark as completed: ";
+        cin >> index;
+
+        if (index >= 1 && static_cast<size_t>(index) <= todoList.size()) {
+            todoList.erase(todoList.begin() + index - 1);
+            cout << "Task marked as completed!" << endl;
+        } else {
+            cout << "Invalid task number." << endl;
+        }
+    }
+}
+
+int main() {
+    vector<string> todoList;
+
+    while (true) {
+        displayMenu();
+
+        int choice;
+        cout << "Enter your choice (1-4): ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addTask(todoList);
+                break;
+            case 2:
+                viewTasks(todoList);
+                break;
+            case 3:
+                markCompleted(todoList);
+                break;
+            case 4:
+                cout << "Exiting the program. Goodbye!" << endl;
+                return 0;
+            default:
+                cout << "Invalid choice. Please enter a number between 1 and 4." << endl;
+        }
+    }
+
+    return 0;
+}
